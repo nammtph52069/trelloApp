@@ -17,12 +17,14 @@ import ArchiveIcon from '@mui/icons-material/Archive'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
+import { mapOrder } from '~/utils/sorts'
 
-function Column() {
+function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => { setAnchorEl(event.currentTarget) }
   const handleClose = () => { setAnchorEl(null) }
+  const orderedColumns = mapOrder(column?.cards, column?.cardOrderIds, '_id')
 
   return (
     <Box sx={{
@@ -48,7 +50,7 @@ function Column() {
           fontWeight: 'bold',
           cursor: 'pointer'
         }}>
-          Column Title
+          {column?.title}
         </Typography>
         {/* Dropdown Header Column */}
         <Box>
@@ -106,7 +108,7 @@ function Column() {
       </Box>
 
       {/* ===== Content Column ===== */}
-      <ListCards />
+      <ListCards cards={orderedColumns} />
 
       {/* ===== Footer Column ===== */}
       <Box sx={{
